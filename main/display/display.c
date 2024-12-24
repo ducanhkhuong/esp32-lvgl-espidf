@@ -116,7 +116,7 @@ void displayConfig(void)
     disp_drv.flush_cb = example_lvgl_flush_cb;
     disp_drv.drv_update_cb = example_lvgl_port_update_callback;
     disp_drv.draw_buf = &disp_buf;
-    disp_drv.user_data = panel_handle;
+    disp_drv.user_data = panel_handle;  // Important here
     lv_disp_t *disp = lv_disp_drv_register(&disp_drv);
 
     ESP_LOGI(TAG, "Install LVGL tick timer");

@@ -74,8 +74,8 @@ void gc9a01_displayInit(void)
 
         //.rgb_endian = LCD_RGB_ENDIAN_RGB, LCD_RGB_ENDIAN_BGR
 
-		//.rgb_ele_order = LCD_RGB_ENDIAN_RGB,
-        .rgb_endian = LCD_RGB_ENDIAN_BGR,
+		.rgb_ele_order = LCD_RGB_ENDIAN_RGB,
+        //.rgb_endian = LCD_RGB_ENDIAN_BGR,
 
         .bits_per_pixel = 16,
     };
@@ -87,7 +87,7 @@ void gc9a01_displayInit(void)
     ESP_ERROR_CHECK(esp_lcd_panel_reset(panel_handle));
     ESP_ERROR_CHECK(esp_lcd_panel_init(panel_handle));
 
-    ESP_ERROR_CHECK(esp_lcd_panel_invert_color(panel_handle, true));
+    ESP_ERROR_CHECK(esp_lcd_panel_invert_color(panel_handle, false));
 
     ESP_ERROR_CHECK(esp_lcd_panel_mirror(panel_handle, true, false));
 
