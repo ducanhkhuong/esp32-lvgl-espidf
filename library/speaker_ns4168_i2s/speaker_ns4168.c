@@ -296,3 +296,5 @@ void camera_theo_doi_toc_do()
 {
     read_and_play_mp3_file("/sound/cameratheodoitd.mp3");
 }
+
+// Hello world
