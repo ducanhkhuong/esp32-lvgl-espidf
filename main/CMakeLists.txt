@@ -1,21 +1,4 @@
-idf_component_register(
-SRCS "main.c" 
-SRCS "uart_config.c" 
-SRCS "esp_interrupt.c" 
-
-SRCS "hardware/rotary_encoder.c" 
-SRCS "hardware/hlk-ld1125h.c"
-SRCS "hardware/button.c"
-SRCS "display/ui_img_patern3_png.c"
-SRCS "display/ui_helpers.c"
-SRCS "display/ui_img_1321029331.c"
-SRCS "display/ui_img_bg3_png.c"
-SRCS "display/ui_img_off_bulb_png.c"
-SRCS "display/ui_img_bulb_png.c"
-
-SRCS "display/lvgl_demo_ui.c"
-SRCS "display/display.c"
-SRCS "display/gc9a01.c"
-SRCS "gpio/gpio_config.c"
-SRCS "timer/systimer.c"
-INCLUDE_DIRS ".")
+set(pri_req nvs_flash display gpio_lib timer_lib)
+idf_component_register(SRCS "main.c" 
+                    INCLUDE_DIRS "."
+                    REQUIRES ${pre_req})
