@@ -1017,10 +1017,10 @@
         #ifdef CONFIG_LV_FONT_MONTSERRAT_14
             #define LV_FONT_MONTSERRAT_14 CONFIG_LV_FONT_MONTSERRAT_14
         #else
-            #define LV_FONT_MONTSERRAT_14 0
+            #define LV_FONT_MONTSERRAT_14 1
         #endif
     #else
-        #define LV_FONT_MONTSERRAT_14 1
+        #define LV_FONT_MONTSERRAT_14 0
     #endif
 #endif
 #ifndef LV_FONT_MONTSERRAT_16
@@ -1111,7 +1111,7 @@
     #ifdef CONFIG_LV_FONT_MONTSERRAT_40
         #define LV_FONT_MONTSERRAT_40 CONFIG_LV_FONT_MONTSERRAT_40
     #else
-        #define LV_FONT_MONTSERRAT_40 0
+        #define LV_FONT_MONTSERRAT_40 1
     #endif
 #endif
 #ifndef LV_FONT_MONTSERRAT_42

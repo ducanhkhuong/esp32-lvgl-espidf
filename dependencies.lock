@@ -5,41 +5,11 @@ dependencies:
       storage_url: file:///D:/Espressif/registry
       type: service
     version: 0.5.3
-  espressif/esp_lcd_gc9a01:
-    component_hash: 2ccbdfa5a1762c7a8be66770b69a256d809651d6069098852d2c829648707b5b
-    source:
-      storage_url: file:///D:/Espressif/registry
-      type: service
-    version: 1.2.0
-  espressif/esp_lcd_ili9341:
-    component_hash: 31f1b793aa2110dd2ae071c21ccbff0a4eb20d9a4ee40b6294c0dc0ad9552c4e
-    source:
-      storage_url: file:///D:/Espressif/registry
-      type: service
-    version: 1.2.0
-  espressif/esp_lcd_touch:
-    component_hash: d4d8f2dc33205797169a97a02e0d89a8982f59fe0509129b54422052b8522f59
-    source:
-      storage_url: file:///D:/Espressif/registry
-      type: service
-    version: 1.1.1
-  espressif/esp_lcd_touch_stmpe610:
-    component_hash: 0f5f7fb50c2d716e72c2729725e4f96232a594d4b36036d6faa74e66e24d2ac9
-    source:
-      storage_url: file:///D:/Espressif/registry
-      type: service
-    version: 1.0.6
   idf:
     component_hash: null
     source:
       type: idf
     version: 5.1.3
-  lvgl:
-    component_hash: null
-    source:
-      path: D:\Espressif\ESP_PROJECT\esp32-lvgl-espidf\library\lvgl
-      type: local
-    version: 8.3.11
-manifest_hash: 1e61dc693b26af12fbb0e19af9e5d51d75599b35ce3f1a4e3d0eaf99dabab80b
+manifest_hash: 7f6fd8d6bbb499480163457108c894079c14519c8749e9e64767f6b6a31d9ca0
 target: esp32
 version: 1.0.0

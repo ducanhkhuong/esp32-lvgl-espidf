@@ -38,6 +38,7 @@
 #include "esp_log.h"
 #include <stdbool.h>
 #include "display.h"
+#include "ble_server_lib.h"
 
 /* MACROS --------------------------------------------------------------------*/
 #define SYS_TICK()				xTaskGetTickCount() * portTICK_PERIOD_MS
