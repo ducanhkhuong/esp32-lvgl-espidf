@@ -25,7 +25,7 @@ lv_disp_drv_t disp_drv;  // contains callback functions
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS --------------------------------------------------------------------*/
-static const char *TAG = "example";
+static const char *TAG = "display.c";
 /* PRIVATE FUNCTIONS DECLARATION ---------------------------------------------*/
 extern void example_lvgl_demo_ui(lv_disp_t *disp);
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
@@ -95,10 +95,7 @@ void displayConfig(void)
 {
     static lv_disp_draw_buf_t disp_buf; // contains internal graphic buffer(s) called draw buffer(s)
 
-
-
-
-    ESP_LOGI(TAG, "Initialize LVGL library");
+    ESP_LOGI(TAG, "initialize LVGL library");
     lv_init();
     // alloc draw buffers used by LVGL
     // it's recommended to choose the size of the draw buffer(s) to be at least 1/10 screen sized
@@ -109,7 +106,7 @@ void displayConfig(void)
     // initialize LVGL draw buffers
     lv_disp_draw_buf_init(&disp_buf, buf1, buf2, EXAMPLE_LCD_H_RES * 20);
 
-    ESP_LOGI(TAG, "Register display driver to LVGL");
+    ESP_LOGI(TAG, "register display driver to LVGL");
     lv_disp_drv_init(&disp_drv);
     disp_drv.hor_res = EXAMPLE_LCD_H_RES;
     disp_drv.ver_res = EXAMPLE_LCD_V_RES;
@@ -119,7 +116,7 @@ void displayConfig(void)
     disp_drv.user_data = panel_handle;  // Important here
     lv_disp_t *disp = lv_disp_drv_register(&disp_drv);
 
-    ESP_LOGI(TAG, "Install LVGL tick timer");
+    ESP_LOGI(TAG, "install LVGL tick timer");
     // Tick interface for LVGL (using esp_timer to generate 2ms periodic event)
     const esp_timer_create_args_t lvgl_tick_timer_args = {
         .callback = &example_increase_lvgl_tick,
@@ -130,7 +127,7 @@ void displayConfig(void)
     ESP_ERROR_CHECK(esp_timer_start_periodic(lvgl_tick_timer, EXAMPLE_LVGL_TICK_PERIOD_MS * 1000));
 
 
-    ESP_LOGI(TAG, "Display LVGL Meter Widget");
+    ESP_LOGI(TAG, "display LVGL start");
     example_lvgl_demo_ui(disp);
 
 }

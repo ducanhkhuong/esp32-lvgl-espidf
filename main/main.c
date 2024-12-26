@@ -21,7 +21,6 @@ void lvgl_time_task(void *param)
 
 	while (1)
 	{
-
 		lv_timer_handler();
 		vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(10));
 	}

@@ -28,7 +28,7 @@
 #include "freertos/task.h"
 #include "gc9a01.h"
 #include "lvgl_demo_ui.h"
-#include "ui_helpers.h"
+
 
 #include "time.h"
 #include <math.h>

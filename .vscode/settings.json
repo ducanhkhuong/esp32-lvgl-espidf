@@ -8,7 +8,9 @@
         "string.h": "c",
         "display.h": "c",
         "lvgl.h": "c",
-        "lvgl_demo_ui.h": "c"
+        "lvgl_demo_ui.h": "c",
+        "lv_colorwheel.h": "c",
+        "lv_obj.h": "c"
     },
     "idf.flashType": "UART"
 }

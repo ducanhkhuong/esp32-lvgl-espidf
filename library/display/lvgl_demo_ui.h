@@ -19,7 +19,8 @@
 
 /* INCLUDES ------------------------------------------------------------------*/
 #include "lvgl.h"
-
+#include "core/lv_obj.h"
+#include "extra/widgets/colorwheel/lv_colorwheel.h"
 /* MACROS --------------------------------------------------------------------*/
 
 /* ENUMORATIONS --------------------------------------------------------------*/
@@ -36,9 +37,9 @@ typedef union
 		uint8_t  reserved;
 	}sel;
 }watch_t;
+
 /* VARIABLES -----------------------------------------------------------------*/
-extern lv_obj_t *dis;
-extern lv_obj_t *ui_label;
+
 
 
 /* FUNCTIONS DECLARATION -----------------------------------------------------*/

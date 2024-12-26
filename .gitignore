@@ -2,7 +2,6 @@ build/
 components/
 managed_components/
 
-
 .project
 .cproject
 main/.cproject

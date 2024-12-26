@@ -20,7 +20,7 @@
 
 /* VARIABLES -----------------------------------------------------------------*/
 
-static const char *gc9a01 = "display";
+static const char *gc9a01 = "gc9a01.c";
 
 esp_lcd_panel_handle_t panel_handle = NULL;
 /* DEFINITIONS ---------------------------------------------------------------*/
@@ -32,13 +32,13 @@ esp_lcd_panel_handle_t panel_handle = NULL;
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 void gc9a01_displayInit(void)
 {
-    ESP_LOGI(gc9a01, "Turn off LCD backlight");
+    ESP_LOGI(gc9a01, "turn off LCD backlight");
     gpio_config_t bk_gpio_config = {
         .mode = GPIO_MODE_OUTPUT,
         .pin_bit_mask = 1ULL << EXAMPLE_PIN_NUM_BK_LIGHT};
     ESP_ERROR_CHECK(gpio_config(&bk_gpio_config));
 
-    ESP_LOGI(gc9a01, "Initialize SPI bus");
+    ESP_LOGI(gc9a01, "initialize SPI bus");
     spi_bus_config_t buscfg = {
         .sclk_io_num = EXAMPLE_PIN_NUM_SCLK,
         .mosi_io_num = EXAMPLE_PIN_NUM_MOSI,
@@ -49,7 +49,7 @@ void gc9a01_displayInit(void)
     };
     ESP_ERROR_CHECK(spi_bus_initialize(LCD_HOST, &buscfg, SPI_DMA_CH_AUTO));
 
-    ESP_LOGI(gc9a01, "Install panel IO");
+    ESP_LOGI(gc9a01, "install panel IO");
     esp_lcd_panel_io_handle_t io_handle = NULL;
     esp_lcd_panel_io_spi_config_t io_config = {
         .dc_gpio_num = EXAMPLE_PIN_NUM_LCD_DC,
@@ -65,7 +65,7 @@ void gc9a01_displayInit(void)
     // Attach the LCD to the SPI bus
     ESP_ERROR_CHECK(esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t)LCD_HOST, &io_config, &io_handle));
 
-    ESP_LOGI(gc9a01, "Install GC9A01 panel driver");
+    ESP_LOGI(gc9a01, "install GC9A01 panel driver");
 
     esp_lcd_panel_dev_config_t panel_config = {
         .reset_gpio_num = EXAMPLE_PIN_NUM_LCD_RST,
@@ -80,18 +80,12 @@ void gc9a01_displayInit(void)
     };
 
     ESP_ERROR_CHECK(esp_lcd_new_panel_gc9a01(io_handle, &panel_config, &panel_handle));
-
     ESP_ERROR_CHECK(esp_lcd_panel_reset(panel_handle));
     ESP_ERROR_CHECK(esp_lcd_panel_init(panel_handle));
-
     ESP_ERROR_CHECK(esp_lcd_panel_invert_color(panel_handle, true));
-
     ESP_ERROR_CHECK(esp_lcd_panel_mirror(panel_handle, true, false));
-
-    // user can flush pre-defined pattern to the screen before we turn on the screen or backlight
     ESP_ERROR_CHECK(esp_lcd_panel_disp_on_off(panel_handle, true));
-
-    ESP_LOGI(gc9a01, "Turn on LCD backlight");
+    ESP_LOGI(gc9a01, "turn on LCD backlight");
     gpio_set_level(EXAMPLE_PIN_NUM_BK_LIGHT, EXAMPLE_LCD_BK_LIGHT_ON_LEVEL);
 }
 
