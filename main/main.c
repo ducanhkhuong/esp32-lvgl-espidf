@@ -9,10 +9,19 @@ static void lvgl_time_task(void *param);
 
 void app_main(void)
 {
-	gc9a01_displayInit();
-	displayConfig();
-	systimer_init();
-	xTaskCreatePinnedToCore(lvgl_time_task, "lvgl_time_task", 10000, NULL, 4, NULL, 1);
+	esp_err_t err;
+	err = nvs_flash_init();
+	if (err == ESP_ERR_NVS_NO_FREE_PAGES)
+	{
+		ESP_ERROR_CHECK(nvs_flash_erase());
+		err = nvs_flash_init();
+	}
+	ESP_ERROR_CHECK(err);
+	play_music();
+	// gc9a01_displayInit();
+	// displayConfig();
+	// systimer_init();
+	// xTaskCreatePinnedToCore(lvgl_time_task, "lvgl_time_task", 10000, NULL, 4, NULL, 1);
 }
 
 void lvgl_time_task(void *param)
