@@ -22,6 +22,23 @@
 
 #include <stdio.h>
 #include <ctype.h>
+
+// #include "extra/widgets/colorwheel/lv_colorwheel.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "gc9a01.h"
+#include "lvgl_demo_ui.h"
+#include "ui_helpers.h"
+
+#include "time.h"
+#include <math.h>
+#include "systimer.h"
+
+#include "gpio_config.h"
+#include "esp_log.h"
+#include <stdbool.h>
+#include "display.h"
+
 /* MACROS --------------------------------------------------------------------*/
 #define SYS_TICK()				xTaskGetTickCount() * portTICK_PERIOD_MS
 /* ENUMORATIONS --------------------------------------------------------------*/
