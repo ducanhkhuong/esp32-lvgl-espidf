@@ -17,6 +17,46 @@ void app_main(void)
 		err = nvs_flash_init();
 	}
 	ESP_ERROR_CHECK(err);
+	init_sound_spiffs();
+	speaker_config();
+	sap_toi_bien_toc_do_gioi_han_40();
+
+	sap_toi_bien_toc_do_gioi_han_50();
+
+	sap_toi_bien_toc_do_gioi_han_60();
+
+	sap_toi_bien_toc_do_gioi_han_70();
+
+	sap_toi_bien_toc_do_gioi_han_90();
+
+	sap_toi_bien_toc_do_gioi_han_100();
+
+	sap_toi_bien_toc_do_gioi_han_120();
+
+	sap_vao_khu_dan_cu();
+
+	sap_thoat_khoi_khu_dan_cu();
+
+	sap_toi_tram_thu_phi();
+
+	qua_toc_do_cho_phep();
+
+	het_duong_cam_vuot();
+
+	vao_duong_cam_vuot();
+
+	giam_toc_do_gioi_han();
+
+	co_camera_giao_thong();
+
+	beep();
+
+	camera_theo_doi_toc_do();
+
+	// while(1){
+
+	// }
+
 	// gc9a01_displayInit();
 	// displayConfig();
 	// systimer_init();
