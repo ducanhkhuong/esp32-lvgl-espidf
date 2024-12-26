@@ -17,7 +17,6 @@ void app_main(void)
 		err = nvs_flash_init();
 	}
 	ESP_ERROR_CHECK(err);
-	play_music();
 	// gc9a01_displayInit();
 	// displayConfig();
 	// systimer_init();

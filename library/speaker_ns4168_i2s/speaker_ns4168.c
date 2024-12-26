@@ -13,9 +13,8 @@ static const char *TAG = "AUDIO PLAYER";
 #define BSP_I2S_MCLK (GPIO_NUM_2)
 #define BSP_I2S_LCLK (GPIO_NUM_35)
 #define BSP_I2S_DOUT (GPIO_NUM_37) // To Codec ES8311
-#define BSP_I2S_DSIN (GPIO_NUM_16) // From ADC ES7210
+#define BSP_I2S_DSIN (GPIO_NUM_NC) // From ADC ES7210
 #define BSP_POWER_AMP_IO (GPIO_NUM_9)
-#define BSP_MUTE_STATUS (GPIO_NUM_1)
 
 #define BSP_I2S_GPIO_CFG       \
     {                          \
@@ -43,6 +42,16 @@ static i2s_chan_handle_t i2s_rx_chan;
 
 static esp_err_t bsp_i2s_write(void *audio_buffer, size_t len, size_t *bytes_written, uint32_t timeout_ms)
 {
+    // Giảm âm lượng
+    int16_t *pcm_buffer = (int16_t *)audio_buffer; // Giả sử dữ liệu là PCM 16-bit
+    size_t sample_count = len / sizeof(int16_t);
+    const float volume_scale = 0.1; // Giảm âm lượng xuống 50%
+
+    for (size_t i = 0; i < sample_count; i++)
+    {
+        pcm_buffer[i] = (int16_t)(pcm_buffer[i] * volume_scale);
+    }
+
     return i2s_channel_write(i2s_tx_chan, (char *)audio_buffer, len, bytes_written, timeout_ms);
 }
 
@@ -107,7 +116,7 @@ static esp_err_t bsp_audio_init(const i2s_std_config_t *i2s_config, i2s_chan_han
     return ESP_OK;
 }
 
-void play_music(void)
+void speaker_config(void)
 {
     ESP_LOGI(TAG, "Initializing audio system");
 
@@ -130,7 +139,8 @@ void play_music(void)
         .write_fn = bsp_i2s_write,
         .clk_set_fn = bsp_i2s_reconfig_clk,
         .priority = 0,
-        .coreID = 0};
+        .coreID = 0
+        };
 
     ret = audio_player_new(config);
     if (ret != ESP_OK)
@@ -139,34 +149,34 @@ void play_music(void)
         return;
     }
 
-    extern const char mp3_start[] asm("_binary_4_mp3_start");
-    extern const char mp3_end[] asm("_binary_4_mp3_end");
+    // extern const char mp3_start[] asm("_binary_4_mp3_start");
+    // extern const char mp3_end[] asm("_binary_4_mp3_end");
 
-    size_t mp3_size = (mp3_end - mp3_start) - 1;
-    ESP_LOGI(TAG, "MP3 size: %zu bytes", mp3_size);
+    // size_t mp3_size = (mp3_end - mp3_start) - 1;
+    // ESP_LOGI(TAG, "MP3 size: %zu bytes", mp3_size);
 
-    FILE *fp = fmemopen((void *)mp3_start, mp3_size, "rb");
-    if (!fp)
-    {
-        ESP_LOGE(TAG, "Failed to open MP3 file");
-        return;
-    }
+    // FILE *fp = fmemopen((void *)mp3_start, mp3_size, "rb");
+    // if (!fp)
+    // {
+    //     ESP_LOGE(TAG, "Failed to open MP3 file");
+    //     return;
+    // }
 
-    ret = audio_player_play(fp);
-    if (ret != ESP_OK)
-    {
-        ESP_LOGE(TAG, "Failed to play audio");
-        fclose(fp);
-        return;
-    }
+    // ret = audio_player_play(fp);
+    // if (ret != ESP_OK)
+    // {
+    //     ESP_LOGE(TAG, "Failed to play audio");
+    //     fclose(fp);
+    //     return;
+    // }
 
-    ESP_LOGI(TAG, "Playing audio...");
+    // ESP_LOGI(TAG, "Playing audio...");
 
-    // Delay for playback duration (adjust as necessary)
-    vTaskDelay(pdMS_TO_TICKS(16000)); // Example: 16 seconds
+    // // Delay for playback duration (adjust as necessary)
+    // vTaskDelay(pdMS_TO_TICKS(16000)); // Example: 16 seconds
 
-    ESP_LOGI(TAG, "Playback finished");
+    // ESP_LOGI(TAG, "Playback finished");
 
-    fclose(fp);
-    audio_player_delete();
+    // fclose(fp);
+    // audio_player_delete();
 }
