@@ -125,5 +125,6 @@ void example_lvgl_demo_ui(lv_disp_t *disp)
     lv_obj_set_style_text_font(label8, &lumi_font_helvetica_14, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(label8, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN   | LV_STATE_DEFAULT);
 
+    
     lv_disp_load_scr(scr);
 }
