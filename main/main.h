@@ -38,21 +38,19 @@
 #include "esp_log.h"
 #include <stdbool.h>
 #include "display.h"
-//#include "ble_server_lib.h"
 #include "esp_err.h"
 #include "nvs_flash.h"
 #include "speaker_ns4168.h"
+#include "ble_server_lib.h"
+#include "id_sign.h"
 
 /* MACROS --------------------------------------------------------------------*/
 #define SYS_TICK() xTaskGetTickCount() * portTICK_PERIOD_MS
+
+
+
 /* ENUMORATIONS --------------------------------------------------------------*/
-typedef enum
-{
-	noti_idle = 0,
-	noti_button,
-	noti_rotary_left,
-	noti_rotary_right,
-} notification_e;
+
 /* STRUCTURES & TYPEDEFS -----------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/

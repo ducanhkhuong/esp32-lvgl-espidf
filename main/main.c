@@ -1,11 +1,30 @@
 
 #include "main.h"
 
+#define TAG "MAIN"
 #define SYSTEM_BUFFER_SIZE 4
 #define SYSTEM_ROTARY_ENCODER_STEP_SIZE 4
 #define SYSTEM_LAMP_MODE_COUNT 3 // see lv_colorwheel_mode_t
 
 static void lvgl_time_task(void *param);
+
+void ble_recv_callback(uint8_t *data, uint16_t len)
+{
+	if (data == NULL)
+	{
+		ESP_LOGE(TAG, "Received null data");
+		return;
+	}
+
+	// Log từng byte trong mảng
+	ESP_LOGI(TAG, "Data as bytes:");
+	for (uint16_t i = 0; i < len; i++)
+	{
+		ESP_LOGI(TAG, "Byte[%d]: 0x%02X (%c)", i, (unsigned char)data[i], isprint((unsigned char)data[i]) ? data[i] : '.');
+	}
+
+	
+}
 
 void app_main(void)
 {
@@ -17,41 +36,44 @@ void app_main(void)
 		err = nvs_flash_init();
 	}
 	ESP_ERROR_CHECK(err);
-	init_sound_spiffs();
-	speaker_config();
-	sap_toi_bien_toc_do_gioi_han_40();
+	BLE_SERVER_INIT();
+	ble_callback_register_callback(ble_recv_callback);
 
-	sap_toi_bien_toc_do_gioi_han_50();
+	// init_sound_spiffs();
+	// speaker_config();
+	// sap_toi_bien_toc_do_gioi_han_40();
 
-	sap_toi_bien_toc_do_gioi_han_60();
+	// sap_toi_bien_toc_do_gioi_han_50();
 
-	sap_toi_bien_toc_do_gioi_han_70();
+	// sap_toi_bien_toc_do_gioi_han_60();
 
-	sap_toi_bien_toc_do_gioi_han_90();
+	// sap_toi_bien_toc_do_gioi_han_70();
 
-	sap_toi_bien_toc_do_gioi_han_100();
+	// sap_toi_bien_toc_do_gioi_han_90();
 
-	sap_toi_bien_toc_do_gioi_han_120();
+	// sap_toi_bien_toc_do_gioi_han_100();
 
-	sap_vao_khu_dan_cu();
+	// sap_toi_bien_toc_do_gioi_han_120();
 
-	sap_thoat_khoi_khu_dan_cu();
+	// sap_vao_khu_dan_cu();
 
-	sap_toi_tram_thu_phi();
+	// sap_thoat_khoi_khu_dan_cu();
 
-	qua_toc_do_cho_phep();
+	// sap_toi_tram_thu_phi();
 
-	het_duong_cam_vuot();
+	// qua_toc_do_cho_phep();
 
-	vao_duong_cam_vuot();
+	// het_duong_cam_vuot();
 
-	giam_toc_do_gioi_han();
+	// vao_duong_cam_vuot();
 
-	co_camera_giao_thong();
+	// giam_toc_do_gioi_han();
 
-	beep();
+	// co_camera_giao_thong();
 
-	camera_theo_doi_toc_do();
+	// beep();
+
+	// camera_theo_doi_toc_do();
 
 	// while(1){
 
