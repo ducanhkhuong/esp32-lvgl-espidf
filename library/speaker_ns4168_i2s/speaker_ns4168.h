@@ -3,6 +3,8 @@
 
 void speaker_config(void);
 void init_sound_spiffs(void);
+void read_and_play_mp3_file(const char *filename);
+
 void sap_toi_bien_toc_do_gioi_han_40();
 
 void sap_toi_bien_toc_do_gioi_han_50();
