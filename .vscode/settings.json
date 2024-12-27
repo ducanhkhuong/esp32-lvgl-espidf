@@ -10,7 +10,10 @@
         "lvgl.h": "c",
         "lvgl_demo_ui.h": "c",
         "lv_colorwheel.h": "c",
-        "lv_obj.h": "c"
+        "lv_obj.h": "c",
+        "main.h": "c",
+        "speaker_ns4168.h": "c",
+        "lv_area.h": "c"
     },
     "idf.flashType": "UART"
 }

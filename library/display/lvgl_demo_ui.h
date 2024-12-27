@@ -21,6 +21,7 @@
 #include "lvgl.h"
 #include "core/lv_obj.h"
 #include "extra/widgets/colorwheel/lv_colorwheel.h"
+
 /* MACROS --------------------------------------------------------------------*/
 
 /* ENUMORATIONS --------------------------------------------------------------*/
