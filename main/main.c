@@ -23,6 +23,9 @@ void ble_recv_callback(uint8_t *data, uint16_t len)
 		ESP_LOGI(TAG, "Byte[%d]: 0x%02X (%c)", i, (unsigned char)data[i], isprint((unsigned char)data[i]) ? data[i] : '.');
 	}
 
+
+	// if(data[0] == )
+
 	
 }
 
