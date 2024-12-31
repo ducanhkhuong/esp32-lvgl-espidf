@@ -101,6 +101,7 @@ void ble_recv_callback(uint8_t *data, uint16_t len)
 			sign_data.camera_sign.number_of_sign = data[offset + 1];
 			if (sign_data.camera_sign.number_of_sign == 0)
 			{
+				ESP_LOGI(TAG, "Dont have camera");
 				offset += 2;
 			}
 			else if (sign_data.camera_sign.number_of_sign == 1)
@@ -126,6 +127,7 @@ void ble_recv_callback(uint8_t *data, uint16_t len)
 			sign_data.traffic_sign.number_of_sign = data[offset + 1];
 			if (sign_data.traffic_sign.number_of_sign == 0)
 			{
+				ESP_LOGI(TAG, "Dont have traffic sign");
 				offset += 2;
 			}
 			else if (sign_data.traffic_sign.number_of_sign == 1)
@@ -149,6 +151,7 @@ void ble_recv_callback(uint8_t *data, uint16_t len)
 			sign_data.other_sign.number_of_sign = data[offset + 1];
 			if (sign_data.other_sign.number_of_sign == 0)
 			{
+				ESP_LOGI(TAG, "Dont have other traffic sign");
 				offset += 2;
 			}
 			else if (sign_data.other_sign.number_of_sign == 1)
