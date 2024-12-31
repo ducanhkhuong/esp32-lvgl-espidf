@@ -23,25 +23,25 @@ typedef struct
 typedef struct
 {
 	uint8_t number_of_sign;
-	uint8_t unique_id[3];
-	uint8_t traffic_id_sign;
-	uint8_t distance[2];
+	uint8_t unique_id[3][3];
+	uint8_t traffic_id_sign[3];
+	uint8_t distance[2][3];
 } camera_sign_t;
 
 typedef struct
 {
 	uint8_t number_of_sign;
-	uint8_t unique_id[3];
-	uint8_t traffic_id_sign;
-	uint8_t distance[2];
+	uint8_t unique_id[3][3];
+	uint8_t traffic_id_sign[3];
+	uint8_t distance[2][3];
 } traffic_sign_t;
 
 typedef struct
 {
 	uint8_t number_of_sign;
-	uint8_t unique_id[3];
-	uint8_t traffic_id_sign;
-	uint8_t distance[2];
+	uint8_t unique_id[3][3];
+	uint8_t traffic_id_sign[3];
+	uint8_t distance[2][3];
 } other_sign_t;
 
 typedef struct
@@ -55,9 +55,18 @@ typedef struct
 } sign_data_t;
 void ble_recv_callback(uint8_t *data, uint16_t len)
 {
+	// priority
+	// 1 - limit speed (current speed -> next speed)
+	// 2 - enter or exit urban
+	// 3 - camera
+	// 4 - other
+
+	bool next_speed = false;
+	bool ex_traffic_sign = false;
+	bool camera = false;
+	bool other_sign = false;
 	sign_data_t sign_data = {0}; // Initialize the structure to zero
 	uint8_t offset = 0;
-
 	if (data == NULL)
 	{
 		ESP_LOGE(TAG, "Received null data");
@@ -104,46 +113,50 @@ void ble_recv_callback(uint8_t *data, uint16_t len)
 				ESP_LOGI(TAG, "Dont have camera");
 				offset += 2;
 			}
-			else if (sign_data.camera_sign.number_of_sign == 1)
+			offset += 2;
+			for (int i = 0; i < sign_data.camera_sign.number_of_sign; i++)
 			{
-				memcpy(sign_data.camera_sign.unique_id, &data[offset + 2], 3);
-				sign_data.camera_sign.traffic_id_sign = data[offset + 5];
-				memcpy(sign_data.camera_sign.distance, &data[offset + 6], 2);
-				ESP_LOGI(TAG, "Camera Sign: Number of Signs: %d, Unique ID: 0x%02X%02X%02X, Traffic ID: 0x%02X, Distance: 0x%02X%02X",
-						 sign_data.camera_sign.number_of_sign,
-						 sign_data.camera_sign.unique_id[0],
-						 sign_data.camera_sign.unique_id[1],
-						 sign_data.camera_sign.unique_id[2],
-						 sign_data.camera_sign.traffic_id_sign,
-						 sign_data.camera_sign.distance[0],
-						 sign_data.camera_sign.distance[1]);
-				offset += 8;
+				memcpy(sign_data.camera_sign.unique_id[i], &data[offset], 3);
+				sign_data.camera_sign.traffic_id_sign[i] = data[offset + 3];
+				memcpy(sign_data.camera_sign.distance[i], &data[offset + 4], 2);
+				offset += 6;
+				ESP_LOGI(TAG, "Camera Sign[%d]: Unique ID: 0x%02X%02X%02X, Traffic ID: 0x%02X, Distance: 0x%02X%02X",
+						 i + 1,
+						 sign_data.camera_sign.unique_id[i][0],
+						 sign_data.camera_sign.unique_id[i][1],
+						 sign_data.camera_sign.unique_id[i][2],
+						 sign_data.camera_sign.traffic_id_sign[i],
+						 sign_data.camera_sign.distance[i][0],
+						 sign_data.camera_sign.distance[i][1]);
 			}
-
 			break;
 
 		case HEADER_TRAFFIC:
-
 			sign_data.traffic_sign.number_of_sign = data[offset + 1];
 			if (sign_data.traffic_sign.number_of_sign == 0)
 			{
-				ESP_LOGI(TAG, "Dont have traffic sign");
+				ESP_LOGI(TAG, "Don't have traffic sign");
 				offset += 2;
 			}
-			else if (sign_data.traffic_sign.number_of_sign == 1)
+			else
 			{
-				memcpy(sign_data.traffic_sign.unique_id, &data[offset + 2], 3);
-				sign_data.traffic_sign.traffic_id_sign = data[offset + 5];
-				memcpy(sign_data.traffic_sign.distance, &data[offset + 6], 2);
-				ESP_LOGI(TAG, "Traffic Sign: Number of Signs: %d, Unique ID: 0x%02X%02X%02X, Traffic ID: 0x%02X, Distance: 0x%02X%02X",
-						 sign_data.traffic_sign.number_of_sign,
-						 sign_data.traffic_sign.unique_id[0],
-						 sign_data.traffic_sign.unique_id[1],
-						 sign_data.traffic_sign.unique_id[2],
-						 sign_data.traffic_sign.traffic_id_sign,
-						 sign_data.traffic_sign.distance[0],
-						 sign_data.traffic_sign.distance[1]);
-				offset += 8;
+				offset += 2;
+				for (int i = 0; i < sign_data.traffic_sign.number_of_sign; i++)
+				{
+					memcpy(sign_data.traffic_sign.unique_id[i], &data[offset], 3);
+					sign_data.traffic_sign.traffic_id_sign[i] = data[offset + 3];
+					memcpy(sign_data.traffic_sign.distance[i], &data[offset + 4], 2);
+					offset += 6;
+
+					ESP_LOGI(TAG, "Traffic Sign[%d]: Unique ID: 0x%02X%02X%02X, Traffic ID: 0x%02X, Distance: 0x%02X%02X",
+							 i + 1,
+							 sign_data.traffic_sign.unique_id[i][0],
+							 sign_data.traffic_sign.unique_id[i][1],
+							 sign_data.traffic_sign.unique_id[i][2],
+							 sign_data.traffic_sign.traffic_id_sign[i],
+							 sign_data.traffic_sign.distance[i][0],
+							 sign_data.traffic_sign.distance[i][1]);
+				}
 			}
 			break;
 
@@ -151,28 +164,33 @@ void ble_recv_callback(uint8_t *data, uint16_t len)
 			sign_data.other_sign.number_of_sign = data[offset + 1];
 			if (sign_data.other_sign.number_of_sign == 0)
 			{
-				ESP_LOGI(TAG, "Dont have other traffic sign");
+				ESP_LOGI(TAG, "Don't have other traffic sign");
 				offset += 2;
 			}
-			else if (sign_data.other_sign.number_of_sign == 1)
+			else
 			{
-				memcpy(sign_data.other_sign.unique_id, &data[offset + 2], 3);
-				sign_data.other_sign.traffic_id_sign = data[offset + 5];
-				memcpy(sign_data.other_sign.distance, &data[offset + 6], 2);
-				ESP_LOGI(TAG, "Other Sign: Number of Signs: %d, Unique ID: 0x%02X%02X%02X, Traffic ID: 0x%02X, Distance: 0x%02X%02X",
-						 sign_data.other_sign.number_of_sign,
-						 sign_data.other_sign.unique_id[0],
-						 sign_data.other_sign.unique_id[1],
-						 sign_data.other_sign.unique_id[2],
-						 sign_data.other_sign.traffic_id_sign,
-						 sign_data.other_sign.distance[0],
-						 sign_data.other_sign.distance[1]);
-				offset += 8;
-				break;
+				offset += 2;
+				for (int i = 0; i < sign_data.other_sign.number_of_sign; i++)
+				{
+					memcpy(sign_data.other_sign.unique_id[i], &data[offset], 3);
+					sign_data.other_sign.traffic_id_sign[i] = data[offset + 3];
+					memcpy(sign_data.other_sign.distance[i], &data[offset + 4], 2);
+					offset += 6;
+
+					ESP_LOGI(TAG, "Other Sign[%d]: Unique ID: 0x%02X%02X%02X, Traffic ID: 0x%02X, Distance: 0x%02X%02X",
+							 i + 1,
+							 sign_data.other_sign.unique_id[i][0],
+							 sign_data.other_sign.unique_id[i][1],
+							 sign_data.other_sign.unique_id[i][2],
+							 sign_data.other_sign.traffic_id_sign[i],
+							 sign_data.other_sign.distance[i][0],
+							 sign_data.other_sign.distance[i][1]);
+				}
 			}
+			break;
 
 		default:
-			ESP_LOGW(TAG, "Unknown header: 0x%02X at offset %d", header, offset);
+			// ESP_LOGW(TAG, "Unknown header: 0x%02X at offset %d", header, offset);
 			offset++;
 			break;
 		}

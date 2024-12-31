@@ -1,6 +1,11 @@
 #ifndef __ID_SIGN_H_
 #define __ID_SIGN_H_
 
+#define PRIORITY_1 1
+#define PRIORITY_2 2 
+#define PRIORITY_3 3
+#define PRIORITY_4 4
+
 #define HEADER_CURRENT_SPEED 0x21
 #define HEADER_NEXT_SPEED 0x22
 #define HEADER_CAMERA 0x23
