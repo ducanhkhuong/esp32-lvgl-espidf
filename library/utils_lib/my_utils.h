@@ -1,6 +1,8 @@
 #ifndef __ID_SIGN_H_
 #define __ID_SIGN_H_
 
+#include "stdint.h"
+#include <string.h>
 #define PRIORITY_1 1
 #define PRIORITY_2 2 
 #define PRIORITY_3 3
@@ -71,6 +73,55 @@
 #define ID_PENALTY_CAMERA 0x21 
 
 #define ID_RED_LIGHT_SURVEILLANCE_CAMERA 0x23
+
+/* STRUCTURES & TYPEDEFS -----------------------------------------------------*/
+typedef struct
+{
+	uint8_t current_speed;
+} current_speed_t;
+
+typedef struct
+{
+	uint8_t unique_id[3];
+	uint8_t next_speed;
+	uint8_t distance[2];
+} next_speed_t;
+
+typedef struct
+{
+	uint8_t number_of_sign;
+	uint8_t unique_id[3][3];
+	uint8_t traffic_id_sign[3];
+	uint8_t distance[2][3];
+} camera_sign_t;
+
+typedef struct
+{
+	uint8_t number_of_sign;
+	uint8_t unique_id[3][3];
+	uint8_t traffic_id_sign[3];
+	uint8_t distance[2][3];
+} traffic_sign_t;
+
+typedef struct
+{
+	uint8_t number_of_sign;
+	uint8_t unique_id[3][3];
+	uint8_t traffic_id_sign[3];
+	uint8_t distance[2][3];
+} other_sign_t;
+
+typedef struct
+{
+	current_speed_t current_speed;
+	next_speed_t next_speed;
+	camera_sign_t camera_sign;
+	traffic_sign_t traffic_sign;
+	other_sign_t other_sign;
+
+} sign_data_t;
+
+void sign_handle(uint8_t *data, uint16_t len);
 
 
 

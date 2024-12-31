@@ -42,14 +42,11 @@
 #include "nvs_flash.h"
 #include "speaker_ns4168.h"
 #include "ble_server_lib.h"
-#include "id_sign.h"
-
+#include "my_utils.h"
 /* MACROS --------------------------------------------------------------------*/
 #define SYS_TICK() xTaskGetTickCount() * portTICK_PERIOD_MS
 
 /* ENUMORATIONS --------------------------------------------------------------*/
-
-/* STRUCTURES & TYPEDEFS -----------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/
 extern TaskHandle_t hMain_uiTask;
