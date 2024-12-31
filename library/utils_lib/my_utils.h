@@ -4,7 +4,7 @@
 #include "stdint.h"
 #include <string.h>
 #define PRIORITY_1 1
-#define PRIORITY_2 2 
+#define PRIORITY_2 2
 #define PRIORITY_3 3
 #define PRIORITY_4 4
 
@@ -32,25 +32,25 @@
 
 #define ID_TS_ENTER_URBAN_AREA 0x0C
 
-#define ID_TS_EXIT_URBAN_AREA  0X0D
+#define ID_TS_EXIT_URBAN_AREA 0X0D
 
-#define ID_TS_NO_OVER_TAKING_ZONE  0x0E
+#define ID_TS_NO_OVER_TAKING_ZONE 0x0E
 
-#define ID_TS_END_OF_NO_OVER_TAKING_ZONE    0x0F
+#define ID_TS_END_OF_NO_OVER_TAKING_ZONE 0x0F
 
-#define ID_TS_SLOW_DOWN_ZONE   0x10
+#define ID_TS_SLOW_DOWN_ZONE 0x10
 
-#define ID_TS_REST_STATIOMN    0x11
+#define ID_TS_REST_STATIOMN 0x11
 
-#define ID_TS_TOLL_STATION     0x12
+#define ID_TS_TOLL_STATION 0x12
 
 #define ID_TS_CROSSING_RAILING_WITHOUT_BARRIER_SIGN 0x13
 
 #define ID_TS_UNDERPASSING_SIGN 0x14
 
-#define ID_TS_UNDERPASS_SIGN     0x15
+#define ID_TS_UNDERPASS_SIGN 0x15
 
-#define ID_OTS_NO_LEFT_TURN_SIGN  0x16
+#define ID_OTS_NO_LEFT_TURN_SIGN 0x16
 
 #define ID_OTS_NO_RIGHT_TURN_SIGN 0x17
 
@@ -64,13 +64,13 @@
 
 #define ID_OTS_NO_STOP_AND_PARKING_SIGN 0x1C
 
-#define ID_OTS_NO_PARKING_ON_ODD_DAYS_SIGN 0x1D 
+#define ID_OTS_NO_PARKING_ON_ODD_DAYS_SIGN 0x1D
 
-#define ID_OTS_NO_PARKING_ON_EVENT_DAYS_SIGN 0x1E 
+#define ID_OTS_NO_PARKING_ON_EVENT_DAYS_SIGN 0x1E
 
 #define ID_TRAFFIC_CAMERA 0x20
 
-#define ID_PENALTY_CAMERA 0x21 
+#define ID_PENALTY_CAMERA 0x21
 
 #define ID_RED_LIGHT_SURVEILLANCE_CAMERA 0x23
 
@@ -121,10 +121,6 @@ typedef struct
 
 } sign_data_t;
 
-void sign_handle(uint8_t *data, uint16_t len);
-
-
-
-
+sign_data_t sign_handle(uint8_t *data, uint16_t len);
 
 #endif

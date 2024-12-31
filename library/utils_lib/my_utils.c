@@ -3,7 +3,7 @@
 #include "esp_log.h"
 
 #define TAG "Parse BLE data: "
-void sign_handle(uint8_t *data, uint16_t len)
+sign_data_t sign_handle(uint8_t *data, uint16_t len)
 {
 
     // priority
@@ -11,17 +11,12 @@ void sign_handle(uint8_t *data, uint16_t len)
     // 2 - enter or exit urban
     // 3 - camera
     // 4 - other
-
-    bool next_speed = false;
-    bool ex_traffic_sign = false;
-    bool camera = false;
-    bool other_sign = false;
     sign_data_t sign_data = {0}; // Initialize the structure to zero
     uint8_t offset = 0;
     if (data == NULL)
     {
         ESP_LOGE(TAG, "Received null data");
-        return;
+        return sign_data;
     }
 
     ESP_LOGI(TAG, "Data received:");
@@ -146,4 +141,5 @@ void sign_handle(uint8_t *data, uint16_t len)
             break;
         }
     }
+    return sign_data;
 }

@@ -8,9 +8,44 @@
 
 static void lvgl_time_task(void *param);
 
+typedef struct
+{
+	uint8_t position_1;
+	uint8_t position_2;
+	uint8_t position_3;
+	uint16_t distance_to_ps_2;
+	uint16_t distance_to_ps_3;
+} sign_display_on_watch_t;
+
+sign_display_on_watch_t get_sign_display_on_watch(sign_data_t sign_data)
+{
+	bool next_speed_sign = false;
+	sign_display_on_watch_t sign_display = {0};
+	sign_display.position_1 = sign_data.current_speed.current_speed;
+
+	if (sign_data.next_speed.next_speed == 0)
+	{
+		for (int i = 0; i < sign_data.traffic_sign.number_of_sign; i++)
+		{
+			//   if(sign_data.traffic_sign.)
+		}
+	}
+	else
+	{
+		sign_display.position_2 = sign_data.next_speed.next_speed;
+		sign_display.distance_to_ps_2 = sign_data.next_speed.distance[0] << 8 | sign_data.next_speed.distance[1];
+	}
+
+	return sign_display;
+}
+
 void ble_recv_callback(uint8_t *data, uint16_t len)
 {
-	sign_handle(data, len);
+	sign_data_t sign_data = sign_handle(data, len);
+	sign_display_on_watch_t sign_display = get_sign_display_on_watch(sign_data);
+	ESP_LOGI(TAG, "Position 1, sign id = %d", sign_display.position_1);
+	ESP_LOGI(TAG, "position 2, sign_id = %d, distance = %d", sign_display.position_2, sign_display.distance_to_ps_2);
+	ESP_LOGI(TAG, "position 3, sign_id = %d, distance = %d", sign_display.position_3, sign_display.distance_to_ps_3);
 }
 void app_main(void)
 {
