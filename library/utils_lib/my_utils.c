@@ -58,6 +58,7 @@ sign_data_t sign_handle(uint8_t *data, uint16_t len)
             {
                 ESP_LOGI(TAG, "Dont have camera");
                 offset += 2;
+                break;
             }
             offset += 2;
             for (int i = 0; i < sign_data.camera_sign.number_of_sign; i++)
@@ -83,6 +84,7 @@ sign_data_t sign_handle(uint8_t *data, uint16_t len)
             {
                 ESP_LOGI(TAG, "Don't have traffic sign");
                 offset += 2;
+                break;
             }
             else
             {
@@ -112,6 +114,7 @@ sign_data_t sign_handle(uint8_t *data, uint16_t len)
             {
                 ESP_LOGI(TAG, "Don't have other traffic sign");
                 offset += 2;
+                break;
             }
             else
             {

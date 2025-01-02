@@ -11,7 +11,7 @@
 #define HEADER_CURRENT_SPEED 0x21
 #define HEADER_NEXT_SPEED 0x22
 #define HEADER_CAMERA 0x23
-#define HEADER_TRAFFIC 0X24
+#define HEADER_TRAFFIC 0x24
 #define HEADER_OTHER 0x25
 
 #define ID_SPEED_LIMIT_40 0x04
@@ -92,7 +92,7 @@ typedef struct
 	uint8_t number_of_sign;
 	uint8_t unique_id[3][3];
 	uint8_t traffic_id_sign[3];
-	uint8_t distance[2][3];
+	uint8_t distance[3][2];
 } camera_sign_t;
 
 typedef struct
@@ -100,7 +100,7 @@ typedef struct
 	uint8_t number_of_sign;
 	uint8_t unique_id[3][3];
 	uint8_t traffic_id_sign[3];
-	uint8_t distance[2][3];
+	uint8_t distance[3][2];
 } traffic_sign_t;
 
 typedef struct
@@ -108,7 +108,7 @@ typedef struct
 	uint8_t number_of_sign;
 	uint8_t unique_id[3][3];
 	uint8_t traffic_id_sign[3];
-	uint8_t distance[2][3];
+	uint8_t distance[3][2];
 } other_sign_t;
 
 typedef struct

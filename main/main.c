@@ -19,23 +19,169 @@ typedef struct
 
 sign_display_on_watch_t get_sign_display_on_watch(sign_data_t sign_data)
 {
-	bool next_speed_sign = false;
 	sign_display_on_watch_t sign_display = {0};
 	sign_display.position_1 = sign_data.current_speed.current_speed;
 
 	if (sign_data.next_speed.next_speed == 0)
 	{
-		for (int i = 0; i < sign_data.traffic_sign.number_of_sign; i++)
+		bool ps_2 = false;
+		bool ps_3 = false;
+		if (sign_data.traffic_sign.number_of_sign > 0)
 		{
-			//   if(sign_data.traffic_sign.)
+			for (int i = 0; i < sign_data.traffic_sign.number_of_sign; i++)
+			{
+				ESP_LOGW(TAG, "test");
+				if (sign_data.traffic_sign.traffic_id_sign[i] == ID_TS_ENTER_URBAN_AREA ||
+					sign_data.traffic_sign.traffic_id_sign[i] == ID_TS_EXIT_URBAN_AREA)
+				{
+					sign_display.position_2 = sign_data.traffic_sign.traffic_id_sign[i];
+					sign_display.distance_to_ps_2 = sign_data.traffic_sign.distance[i][0] << 8 | sign_data.traffic_sign.distance[i][1];
+					ps_2 = true;
+				}
+			}
+		}
+		if (sign_data.camera_sign.number_of_sign > 0)
+		{
+			for (int i = 0; i < sign_data.camera_sign.number_of_sign; i++)
+			{
+				if (ps_2 == false)
+				{
+					sign_display.position_2 = sign_data.camera_sign.traffic_id_sign[i];
+					sign_display.distance_to_ps_2 = sign_data.camera_sign.distance[i][0] << 8 | sign_data.camera_sign.distance[i][1];
+					ps_2 = true;
+					goto next_camera_sign;
+				}
+
+				if (ps_2 == true && ps_3 == false)
+				{
+					sign_display.position_3 = sign_data.camera_sign.traffic_id_sign[i];
+					sign_display.distance_to_ps_3 = sign_data.camera_sign.distance[i][0] << 8 | sign_data.camera_sign.distance[i][1];
+					ps_3 = true;
+				}
+			next_camera_sign:
+				ESP_LOGI(TAG, "next camera sign");
+			}
+		}
+
+		if (sign_data.traffic_sign.number_of_sign > 0 && ps_3 == false)
+		{
+			for (int i = 0; i < sign_data.traffic_sign.number_of_sign; i++)
+			{
+				if (sign_data.traffic_sign.traffic_id_sign[i] != ID_TS_ENTER_URBAN_AREA &&
+					sign_data.traffic_sign.traffic_id_sign[i] != ID_TS_EXIT_URBAN_AREA)
+				{
+					if (ps_2 == false)
+					{
+						sign_display.position_2 = sign_data.traffic_sign.traffic_id_sign[i];
+						sign_display.distance_to_ps_2 = sign_data.traffic_sign.distance[i][0] << 8 | sign_data.traffic_sign.distance[i][1];
+						ps_2 = true;
+						goto next_traffic_sign;
+					}
+
+					if (ps_2 == true)
+					{
+						sign_display.position_3 = sign_data.traffic_sign.traffic_id_sign[i];
+						sign_display.distance_to_ps_3 = sign_data.traffic_sign.distance[i][0] << 8 | sign_data.traffic_sign.distance[i][1];
+						ps_3 = true;
+					}
+				next_traffic_sign:
+					ESP_LOGI(TAG, "Go to next traffic sign");
+				}
+			}
+		}
+
+		if (sign_data.other_sign.number_of_sign > 0 && ps_3 == false)
+		{
+			for (int i = 0; i < sign_data.other_sign.number_of_sign; i++)
+			{
+
+				if (ps_2 == false)
+				{
+					sign_display.position_2 = sign_data.other_sign.traffic_id_sign[i];
+					sign_display.distance_to_ps_2 = sign_data.other_sign.distance[i][0] << 8 | sign_data.other_sign.distance[i][1];
+					ps_2 = true;
+					goto next_other_sign;
+				}
+
+				if (ps_2 == true)
+				{
+					sign_display.position_3 = sign_data.other_sign.traffic_id_sign[i];
+					sign_display.distance_to_ps_3 = sign_data.other_sign.distance[i][0] << 8 | sign_data.traffic_sign.distance[i][1];
+					ps_3 = true;
+				}
+			next_other_sign:
+				ESP_LOGI(TAG, "Go to next other sign");
+			}
 		}
 	}
 	else
 	{
 		sign_display.position_2 = sign_data.next_speed.next_speed;
 		sign_display.distance_to_ps_2 = sign_data.next_speed.distance[0] << 8 | sign_data.next_speed.distance[1];
-	}
+		bool sign_3 = false;
+		// ESP_LOGI(TAG, "%d", )
+		if (sign_data.traffic_sign.number_of_sign > 0)
+		{
+			for (int i = 0; i < sign_data.traffic_sign.number_of_sign; i++)
+			{
+				ESP_LOGW(TAG, "test");
+				if (sign_data.traffic_sign.traffic_id_sign[i] == ID_TS_ENTER_URBAN_AREA ||
+					sign_data.traffic_sign.traffic_id_sign[i] == ID_TS_EXIT_URBAN_AREA)
+				{
+					sign_display.position_3 = sign_data.traffic_sign.traffic_id_sign[i];
+					sign_display.distance_to_ps_3 = sign_data.traffic_sign.distance[i][0] << 8 | sign_data.traffic_sign.distance[i][1];
+					sign_3 = true;
+				}
+			}
+		}
+		ESP_LOGW(TAG, "Number of cam : %d", sign_data.camera_sign.number_of_sign);
+		if (sign_data.camera_sign.number_of_sign > 0)
+		{
+			for (int i = 0; i < sign_data.camera_sign.number_of_sign; i++)
+			{
+				ESP_LOGI(TAG, "Check here, %d", sign_3);
+				if (sign_3 == false)
+				{
+					ESP_LOGI(TAG, "Check here now");
+					ESP_LOGI(TAG, "%d", sign_data.camera_sign.traffic_id_sign[i]);
+					sign_display.position_3 = sign_data.camera_sign.traffic_id_sign[i];
+					sign_display.distance_to_ps_3 = sign_data.camera_sign.distance[i][0] << 8 | sign_data.camera_sign.distance[i][1];
+					sign_3 = true;
+				}
+			}
+		}
 
+		if (sign_data.traffic_sign.number_of_sign > 0 && sign_3 == false)
+		{
+			for (int i = 0; i < sign_data.traffic_sign.number_of_sign; i++)
+			{
+				if (sign_data.traffic_sign.traffic_id_sign[i] != ID_TS_ENTER_URBAN_AREA &&
+					sign_data.traffic_sign.traffic_id_sign[i] != ID_TS_EXIT_URBAN_AREA)
+				{
+					if (sign_3 == false)
+					{
+						sign_display.position_3 = sign_data.traffic_sign.traffic_id_sign[i];
+						sign_display.distance_to_ps_3 = sign_data.traffic_sign.distance[i][0] << 8 | sign_data.traffic_sign.distance[i][1];
+						sign_3 = true;
+					}
+				}
+			}
+		}
+
+		if (sign_data.other_sign.number_of_sign > 0 && sign_3 == false)
+		{
+			for (int i = 0; i < sign_data.other_sign.number_of_sign; i++)
+			{
+
+				if (sign_3 == false)
+				{
+					sign_display.position_3 = sign_data.other_sign.traffic_id_sign[i];
+					sign_display.distance_to_ps_3 = sign_data.other_sign.distance[i][0] << 8 | sign_data.other_sign.distance[i][1];
+					sign_3 = true;
+				}
+			}
+		}
+	}
 	return sign_display;
 }
 
